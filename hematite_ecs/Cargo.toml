@@ -1,9 +1,11 @@
 [package]
-name = "derive_component"
+name = "hematite_ecs"
 version = "0.1.0"
 edition = "2021"
 
 [lib]
+name = "hematite_ecs"
+path = "src/lib.rs"
 proc-macro = true
 
 [dependencies]

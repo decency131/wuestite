@@ -1,15 +1,5 @@
-[package]
-name = "hematite"
-version = "0.1.0"
-edition = "2021"
-
-[lib]
-name = "hematite"
-path = "src/lib.rs"
-
-[[bin]]
-name = "hematite"
-path = "src/main.rs"
-
-[dependencies]
-derive_component = { path = "src/ecs/derive_component" }
+[workspace]
+members = [
+    "hematite",
+    "hematite_ecs",
+]

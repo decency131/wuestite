@@ -1,28 +1,35 @@
 use std::any::{Any, TypeId};
 use std::collections::HashMap;
-use crate::ecs::entity::Entity;
-use crate::ecs::component::Component;
+use crate::entity::Entity;
+use crate::component::Component;
 
-pub struct World {
+pub trait World {
+    fn new() -> Self;
+    fn spawn(&mut self) -> Entity;
+    fn add_component<T: Component>(&mut self, entity: Entity, component: T);
+    fn get_component<T: Component>(&self, entity: Entity) -> Option<&T>;
+}
+
+pub struct BasicWorld {
     pub entities: Vec<Entity>,
     components: HashMap<TypeId, HashMap<Entity, Box<dyn Any>>>,
 }
 
-impl World {
-    pub fn new() -> Self {
-        World {
+impl World for BasicWorld {
+    fn new() -> Self {
+        BasicWorld {
             entities: Vec::new(),
             components: HashMap::new(),
         }
     }
 
-    pub fn spawn(&mut self) -> Entity {
+    fn spawn(&mut self) -> Entity {
         let entity = Entity::new(self.entities.len());
         self.entities.push(entity);
         entity
     }
 
-    pub fn add_component<T: Component>(&mut self, entity: Entity, component: T) {
+    fn add_component<T: Component>(&mut self, entity: Entity, component: T) {
         let type_id = TypeId::of::<T>();
         self.components
             .entry(type_id)
@@ -30,7 +37,7 @@ impl World {
             .insert(entity, Box::new(component));
     }
 
-    pub fn get_component<T: Component>(&self, entity: Entity) -> Option<&T> {
+    fn get_component<T: Component>(&self, entity: Entity) -> Option<&T> {
         let type_id = TypeId::of::<T>();
         self.components
             .get(&type_id)?

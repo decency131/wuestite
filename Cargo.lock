@@ -3,19 +3,22 @@
 version = 4
 
 [[package]]
-name = "derive_component"
+name = "hematite"
 version = "0.1.0"
 dependencies = [
+ "hematite_ecs",
  "proc-macro2",
  "quote",
  "syn",
 ]
 
 [[package]]
-name = "hematite"
+name = "hematite_ecs"
 version = "0.1.0"
 dependencies = [
- "derive_component",
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]

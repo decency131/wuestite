@@ -1,6 +1,7 @@
-use hematite::ecs::world::World;
-use hematite::ecs::system::System;
-use hematite::ecs::component::Component;
+use hematite_ecs::World;
+use hematite_ecs::Entity;
+use hematite_ecs::Component;
+use hematite_ecs::System;
 
 #[derive(Component)]
 struct Red;
@@ -8,6 +9,7 @@ struct Red;
 #[derive(Component)]
 struct Blue;
 
+#[derive(System)]
 struct CountComponentRed;
 
 impl System for CountComponentRed {
@@ -21,6 +23,10 @@ impl System for CountComponentRed {
         println!("Entities with Red component: {}", count);
     }
 }
+
+#[derive(Entity)]
+struct MyEntity(usize);
+
 fn main() {
     let mut world = World::new();
 
