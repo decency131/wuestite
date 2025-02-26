@@ -7,9 +7,6 @@ name = "hematite"
 version = "0.1.0"
 dependencies = [
  "hematite_ecs",
- "proc-macro2",
- "quote",
- "syn",
 ]
 
 [[package]]

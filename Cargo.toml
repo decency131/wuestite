@@ -1,5 +1,23 @@
+[package]
+name = "hematite"
+version = "0.1.0"
+authors = ["decency131", "ArZarLordOfMango"]
+edition = '2021'
+description = "2D game engine written in rust."
+readme = "README.md"
+repository = "https://github.com/decency131/hematite"
+license = "WTFPL"
+license-file = "LICENSE.txt"
+keywords = ["gamedev", "engine"]
+
+[lib]
+name = "hematite"
+path = "src/lib.rs"
+
 [workspace]
 members = [
-    "hematite",
-    "hematite_ecs",
+    "crates/*"
 ]
+
+[dependencies]
+hematite_ecs = {path = "crates/hematite_ecs"}
