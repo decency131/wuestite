@@ -1,4 +1,4 @@
-use crate::world::World;
+use crate::World;
 
 pub trait System {
     fn run(&self, world: &World);
