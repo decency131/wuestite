@@ -29,5 +29,5 @@ fn main() {
     let e3 = world.spawn();
     world.add_component(e3, Red);
     
-    CountRedComponents.run(&world); // Вывод: Red components: 2
+    CountRedComponents.run(&world);
 }
