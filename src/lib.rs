@@ -1,1 +1,1 @@
-pub use hematite_ecs::{Component, Entity, World, System};
+pub use hematite_ecs::{Component, Entity, System, World};

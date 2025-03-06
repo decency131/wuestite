@@ -6,8 +6,9 @@ use syn::{parse_macro_input, DeriveInput};
 pub fn component_derive(input: TokenStream) -> TokenStream {
     let ast = parse_macro_input!(input as DeriveInput);
     let name = ast.ident;
-    
+
     quote! {
         impl hematite_ecs::Component for #name {}
-    }.into()
+    }
+    .into()
 }

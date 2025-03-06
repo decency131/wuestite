@@ -1,6 +1,6 @@
+use crate::{Component, Entity};
 use std::any::{Any, TypeId};
 use std::collections::HashMap;
-use crate::{Component, Entity};
 
 pub struct World {
     pub entities: Vec<Entity>,
