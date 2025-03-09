@@ -8,7 +8,7 @@ pub fn component_derive(input: TokenStream) -> TokenStream {
     let name = ast.ident;
 
     quote! {
-        impl hematite_ecs::Component for #name {}
+        impl hematite::Component for #name {}
     }
     .into()
 }
