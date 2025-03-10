@@ -24,17 +24,23 @@ impl World {
         entity
     }
 
-    pub fn add_component<T: Component>(&mut self, entity: Entity, component: T) {
+    pub fn add_component<T: Component + 'static>(&mut self, entity: Entity, component: T) {
         self.components
             .entry(TypeId::of::<T>())
             .or_default()
             .insert(entity, Box::new(component));
     }
 
-    pub fn get_component<T: Component>(&self, entity: Entity) -> Option<&T> {
+    pub fn get_component<T: Component + 'static>(&self, entity: Entity) -> Option<&T> {
         self.components
             .get(&TypeId::of::<T>())?
             .get(&entity)
             .and_then(|c| c.downcast_ref())
+    }
+}
+
+impl Default for World {
+    fn default() -> Self {
+        Self::new()
     }
 }
