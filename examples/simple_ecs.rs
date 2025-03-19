@@ -9,7 +9,7 @@ struct Blue;
 struct CountRedComponents;
 
 impl System for CountRedComponents {
-    fn run(&self, world: &World) {
+    fn run(&self, world: &mut World) {
         let count = world
             .entities
             .iter()
@@ -31,5 +31,5 @@ fn main() {
     let e3 = world.spawn();
     world.add_component(e3, Red);
 
-    CountRedComponents.run(&world);
+    CountRedComponents.run(&mut world);
 }

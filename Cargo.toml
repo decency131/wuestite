@@ -6,8 +6,7 @@ edition = '2021'
 description = "2D game engine written in rust."
 readme = "README.md"
 repository = "https://github.com/decency131/hematite"
-license = "WTFPL"
-license-file = "LICENSE.txt"
+license-file = "LICENSE"
 keywords = ["gamedev", "engine"]
 
 [lib]
