@@ -3,8 +3,10 @@ use std::collections::HashMap;
 
 pub trait Event: 'static + Send + Sync {}
 
+type EventListener = Box<dyn Fn(&dyn Any)>;
+
 pub struct EventDispatcher {
-    listeners: HashMap<TypeId, Vec<Box<dyn Fn(&dyn Any)>>>,
+    listeners: HashMap<TypeId, Vec<EventListener>>,
 }
 
 impl Default for EventDispatcher {
