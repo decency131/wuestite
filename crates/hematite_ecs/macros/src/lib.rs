@@ -34,6 +34,7 @@ pub fn system_derive(input: TokenStream) -> TokenStream {
     quote! {
         impl hematite_ecs::System for #name {
             fn run(&self, world: &mut hematite_ecs::World) {}
+            fn update(&self, world: &mut hematite_ecs::World) {}
         }
     }
     .into()
