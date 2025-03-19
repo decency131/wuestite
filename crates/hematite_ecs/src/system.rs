@@ -8,6 +8,12 @@ pub struct SystemRegistry {
     systems: Vec<Box<dyn System>>,
 }
 
+impl Default for SystemRegistry {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl SystemRegistry {
     pub fn new() -> Self {
         Self {

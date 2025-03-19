@@ -30,7 +30,7 @@ impl World {
 
     pub fn add_component<T: 'static + Any>(&mut self, entity: Entity, component: T) {
         let type_id = TypeId::of::<T>();
-        let components = self.components.entry(type_id).or_insert_with(|| vec![]);
+        let components = self.components.entry(type_id).or_insert_with(std::vec::Vec::new);
 
         while entity.id() >= components.len() as u64 {
             components.push(None);
@@ -78,7 +78,7 @@ impl World {
         let type_id = TypeId::of::<E>();
         self.events
             .entry(type_id)
-            .or_insert_with(VecDeque::new)
+            .or_default()
             .push_back(Box::new(event));
     }
 

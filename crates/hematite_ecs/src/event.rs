@@ -7,6 +7,12 @@ pub struct EventDispatcher {
     listeners: HashMap<TypeId, Vec<Box<dyn Fn(&dyn Any)>>>,
 }
 
+impl Default for EventDispatcher {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl EventDispatcher {
     pub fn new() -> Self {
         Self {
@@ -18,7 +24,7 @@ impl EventDispatcher {
         let type_id = TypeId::of::<E>();
         self.listeners
             .entry(type_id)
-            .or_insert_with(Vec::new)
+            .or_default()
             .push(Box::new(move |event| {
                 listener(event.downcast_ref::<E>().unwrap());
             }));
