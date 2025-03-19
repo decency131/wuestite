@@ -1,11 +1,14 @@
-use crate::{Component, Entity};
 use std::any::{Any, TypeId};
-use std::collections::HashMap;
+use std::collections::{HashMap, VecDeque};
+
+use crate::event::Event;
+use crate::Entity;
 
 pub struct World {
     pub entities: Vec<Entity>,
-    components: HashMap<TypeId, HashMap<Entity, Box<dyn Any>>>,
+    components: HashMap<TypeId, Vec<Option<Box<dyn Any>>>>,
     next_entity_id: u64,
+    events: HashMap<TypeId, VecDeque<Box<dyn Any>>>,
 }
 
 impl World {
@@ -14,6 +17,7 @@ impl World {
             entities: Vec::new(),
             components: HashMap::new(),
             next_entity_id: 0,
+            events: HashMap::new(),
         }
     }
 
@@ -24,18 +28,70 @@ impl World {
         entity
     }
 
-    pub fn add_component<T: Component + 'static>(&mut self, entity: Entity, component: T) {
-        self.components
-            .entry(TypeId::of::<T>())
-            .or_default()
-            .insert(entity, Box::new(component));
+    pub fn add_component<T: 'static + Any>(&mut self, entity: Entity, component: T) {
+        let type_id = TypeId::of::<T>();
+        let components = self.components.entry(type_id).or_default();
+
+        while entity.id() >= components.len() as u64 {
+            components.push(None);
+        }
+
+        components[entity.id() as usize] = Some(Box::new(component));
     }
 
-    pub fn get_component<T: Component + 'static>(&self, entity: Entity) -> Option<&T> {
+    pub fn get_component<T: 'static + Any>(&self, entity: Entity) -> Option<&T> {
+        let type_id = TypeId::of::<T>();
         self.components
-            .get(&TypeId::of::<T>())?
-            .get(&entity)
-            .and_then(|c| c.downcast_ref())
+            .get(&type_id)?
+            .get(entity.id() as usize)?
+            .as_ref()
+            .and_then(|boxed| boxed.downcast_ref::<T>())
+    }
+
+    pub fn get_component_mut<T: 'static + Any>(&mut self, entity: Entity) -> Option<&mut T> {
+        let type_id = TypeId::of::<T>();
+        self.components
+            .get_mut(&type_id)?
+            .get_mut(entity.id() as usize)?
+            .as_mut()
+            .and_then(|boxed| boxed.downcast_mut::<T>())
+    }
+
+    pub fn remove_component<T: 'static + Any>(&mut self, entity: Entity) -> Option<Box<dyn Any>> {
+        let type_id = TypeId::of::<T>();
+        self.components
+            .get_mut(&type_id)?
+            .get_mut(entity.id() as usize)?
+            .take()
+    }
+
+    pub fn despawn(&mut self, entity: Entity) {
+        self.entities.retain(|&e| e != entity);
+        for components in self.components.values_mut() {
+            if entity.id() < components.len() as u64 {
+                components[entity.id() as usize] = None;
+            }
+        }
+    }
+
+    pub fn send_event<E: Event + 'static>(&mut self, event: E) {
+        let type_id = TypeId::of::<E>();
+        self.events
+            .entry(type_id)
+            .or_default()
+            .push_back(Box::new(event));
+    }
+
+    pub fn get_events<E: Event + 'static>(&mut self) -> Vec<E> {
+        let type_id = TypeId::of::<E>();
+        if let Some(events) = self.events.get_mut(&type_id) {
+            events
+                .drain(..)
+                .map(|boxed| *boxed.downcast::<E>().unwrap())
+                .collect()
+        } else {
+            Vec::new()
+        }
     }
 }
 
