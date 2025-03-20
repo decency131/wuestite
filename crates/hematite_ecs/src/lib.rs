@@ -10,5 +10,6 @@ pub use event::Event;
 pub use event::EventDispatcher;
 pub use hematite_ecs_macros::Component;
 pub use hematite_ecs_macros::Event;
+pub use hematite_ecs_macros::System;
 pub use system::System;
 pub use world::World;

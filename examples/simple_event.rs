@@ -18,9 +18,10 @@ struct ExplosionEvent {
     power: u32,
 }
 
+#[derive(System)]
 struct BombSystem;
 
-impl System for BombSystem {
+impl BombSystem {
     fn run(&self, world: &mut World) {
         let entities: Vec<Entity> = world.entities.clone();
 
@@ -42,9 +43,10 @@ impl System for BombSystem {
     }
 }
 
+#[derive(System)]
 struct ForceFieldSystem;
 
-impl System for ForceFieldSystem {
+impl ForceFieldSystem {
     fn run(&self, world: &mut World) {
         let events: Vec<ExplosionEvent> = world.get_events();
 
