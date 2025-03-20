@@ -7,7 +7,7 @@
 /// ```
 /// #[derive(Component)]
 /// struct Red;
-/// 
+///
 /// #[derive(Component)]
 /// struct ForceField {
 /// name: String,
