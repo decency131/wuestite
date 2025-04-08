@@ -1,1 +1,1 @@
-extern crate hematite_ecs;
+pub extern crate hematite_ecs;
