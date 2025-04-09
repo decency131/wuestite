@@ -4,6 +4,7 @@ use proc_macro::TokenStream;
 use quote::quote;
 use syn::{parse_macro_input, DeriveInput};
 
+/// Derive macro for automatically implementing the `Component` trait.
 #[proc_macro_derive(Component)]
 pub fn component_derive(input: TokenStream) -> TokenStream {
     let ast = parse_macro_input!(input as DeriveInput);
@@ -15,6 +16,7 @@ pub fn component_derive(input: TokenStream) -> TokenStream {
     .into()
 }
 
+/// Derive macro for automatically implementing the `Event` trait.
 #[proc_macro_derive(Event)]
 pub fn event_derive(input: TokenStream) -> TokenStream {
     let ast = parse_macro_input!(input as DeriveInput);
@@ -26,6 +28,7 @@ pub fn event_derive(input: TokenStream) -> TokenStream {
     .into()
 }
 
+/// Derive macro for automatically implementing the `System` trait.
 #[proc_macro_derive(System)]
 pub fn system_derive(input: TokenStream) -> TokenStream {
     let ast = parse_macro_input!(input as DeriveInput);

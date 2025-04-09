@@ -16,7 +16,7 @@ path = "src/lib.rs"
 [workspace]
 members = [
     "crates/*"
-]
+, "docs"]
 
 [dependencies]
 hematite_ecs = {path = "crates/hematite_ecs"}

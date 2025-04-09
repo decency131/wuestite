@@ -6,9 +6,10 @@ struct Red;
 #[derive(Component)]
 struct Blue;
 
+#[derive(System)]
 struct CountRedComponents;
 
-impl System for CountRedComponents {
+impl CountRedComponents {
     fn run(&self, world: &mut World) {
         let count = world
             .entities
