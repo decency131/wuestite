@@ -1,4 +1,4 @@
-use hematite_ecs::{Component, System, World};
+use wuestite_ecs::{Component, System, World};
 
 #[derive(Component)]
 struct Red;

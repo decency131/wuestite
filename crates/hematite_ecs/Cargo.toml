@@ -1,7 +1,0 @@
-[package]
-name = "hematite_ecs"
-version = "0.1.0"
-edition = "2021"
-
-[dependencies]
-hematite_ecs_macros = { path = "./macros" }

@@ -1,4 +1,4 @@
-use hematite_ecs::{Component, Entity, Event, System, World};
+use wuestite_ecs::{Component, Entity, Event, System, World};
 
 #[derive(Component)]
 struct Bomb {
