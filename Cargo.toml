@@ -1,5 +1,5 @@
 [package]
-name = "hematite"
+name = "wuestite"
 version = "0.1.0"
 authors = ["decency131", "ArZarLordOfMango"]
 edition = '2021'
@@ -10,7 +10,7 @@ license-file = "LICENSE"
 keywords = ["gamedev", "engine"]
 
 [lib]
-name = "hematite"
+name = "wuestite"
 path = "src/lib.rs"
 
 [workspace]
@@ -19,4 +19,4 @@ members = [
 , "docs"]
 
 [dependencies]
-hematite_ecs = {path = "crates/hematite_ecs"}
+wuestite_ecs = {path = "crates/wuestite_ecs", version = "0.1.0"}

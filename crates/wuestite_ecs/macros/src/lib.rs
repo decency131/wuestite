@@ -11,7 +11,7 @@ pub fn component_derive(input: TokenStream) -> TokenStream {
     let name = ast.ident;
 
     quote! {
-        impl hematite_ecs::Component for #name {}
+        impl wuestite_ecs::Component for #name {}
     }
     .into()
 }
@@ -23,7 +23,7 @@ pub fn event_derive(input: TokenStream) -> TokenStream {
     let name = ast.ident;
 
     quote! {
-        impl hematite_ecs::Event for #name {}
+        impl wuestite_ecs::Event for #name {}
     }
     .into()
 }
@@ -35,9 +35,9 @@ pub fn system_derive(input: TokenStream) -> TokenStream {
     let name = ast.ident;
 
     quote! {
-        impl hematite_ecs::System for #name {
-            fn run(&self, world: &mut hematite_ecs::World) {}
-            fn update(&self, world: &mut hematite_ecs::World) {}
+        impl wuestite_ecs::System for #name {
+            fn run(&self, world: &mut wuestite_ecs::World) {}
+            fn update(&self, world: &mut wuestite_ecs::World) {}
         }
     }
     .into()
