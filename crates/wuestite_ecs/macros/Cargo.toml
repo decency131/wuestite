@@ -1,5 +1,5 @@
 [package]
-name = "hematite_ecs_macros"
+name = "wuestite_ecs_macros"
 version = "0.1.0"
 edition = "2021"
 
