@@ -9,4 +9,4 @@ homepage = "https://github.com/decency131/wuestite/blob/main/README.md"
 repository = "https://github.com/decency131/wuestite"
 
 [dependencies]
-wuestite_ecs_macros = { path = "./macros" }
+wuestite_ecs_macros = { path = "./macros" version="*"}
