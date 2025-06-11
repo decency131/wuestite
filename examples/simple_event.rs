@@ -1,4 +1,4 @@
-use wuestite_ecs::{Component, Entity, Event, System, World};
+use wuestite::prelude::*;
 
 #[derive(Component)]
 struct Bomb {

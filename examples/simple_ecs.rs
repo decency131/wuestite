@@ -1,4 +1,4 @@
-use wuestite_ecs::{Component, System, World};
+use wuestite::prelude::*;
 
 #[derive(Component)]
 struct Red;
