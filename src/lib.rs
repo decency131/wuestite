@@ -1,6 +1,6 @@
 pub use wuestite_ecs::{
-    Component, Entity, Event, EventDispatcher, System, World,
-    Component as ComponentDerive, Event as EventDerive, System as SystemDerive,
+    Component, Component as ComponentDerive, Entity, Event, Event as EventDerive, EventDispatcher,
+    System, System as SystemDerive, World,
 };
 
 pub mod prelude;
