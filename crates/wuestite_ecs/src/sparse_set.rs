@@ -7,6 +7,13 @@ pub struct SparseSet<T> {
     dense_components: Vec<T>,
 }
 
+impl<T> Default for SparseSet<T> {
+    /// Creates a new empty `SparseSet` using the default constructor.
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl<T> SparseSet<T> {
     /// Creates a new empty `SparseSet`.
     pub fn new() -> Self {
@@ -19,14 +26,14 @@ impl<T> SparseSet<T> {
 
     /// Inserts a component associated with an entity into the sparse set.
     pub fn insert(&mut self, entity: u64, component: T) {
-        if self.sparse.contains_key(&entity) {
-            let idx = self.sparse[&entity];
-            self.dense_components[idx] = component;
-        } else {
+        if let std::collections::hash_map::Entry::Vacant(e) = self.sparse.entry(entity) {
             let idx = self.dense_entities.len();
-            self.sparse.insert(entity, idx);
+            e.insert(idx);
             self.dense_entities.push(entity);
             self.dense_components.push(component);
+        } else {
+            let idx = self.sparse[&entity];
+            self.dense_components[idx] = component;
         }
     }
 
@@ -56,8 +63,8 @@ impl<T> SparseSet<T> {
         }
 
         self.dense_entities.pop();
-        let removed_component = self.dense_components.pop();
-        removed_component
+
+        self.dense_components.pop()
     }
 
     pub fn keys(&self) -> impl Iterator<Item = &u64> {
