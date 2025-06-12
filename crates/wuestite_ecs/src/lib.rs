@@ -1,6 +1,7 @@
 pub mod component;
 pub mod entity;
 pub mod event;
+pub mod sparse_set;
 pub mod system;
 pub mod world;
 

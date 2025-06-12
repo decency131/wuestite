@@ -6,16 +6,11 @@ struct Red;
 #[derive(Component)]
 struct Blue;
 
-#[derive(System)]
 struct CountRedComponents;
 
 impl CountRedComponents {
     fn run(&self, world: &mut World) {
-        let count = world
-            .entities
-            .iter()
-            .filter(|&&e| world.get_component::<Red>(e).is_some())
-            .count();
+        let count = world.iter_component_entities::<Red>().count();
         println!("Red components: {}", count);
     }
 }
