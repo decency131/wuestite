@@ -86,5 +86,4 @@ impl<T> SparseSet<T> {
     pub fn is_empty(&self) -> bool {
         self.dense.is_empty()
     }
-    
 }

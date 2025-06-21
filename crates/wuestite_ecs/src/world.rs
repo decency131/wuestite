@@ -1,7 +1,7 @@
 use std::any::{Any, TypeId};
 use std::collections::{HashMap, VecDeque};
 
-use crate::{event::Event, Entity, sparse_set::SparseSet};
+use crate::{event::Event, sparse_set::SparseSet, Entity};
 
 /// Represents the game world, containing [Entity], [`Component`](crate::Component), and [Event].
 pub struct World {
@@ -36,9 +36,11 @@ impl World {
     /// Adds a [`Component`](crate::Component) to the given [Entity].
     pub fn add_component<T: 'static>(&mut self, entity: Entity, component: T) {
         let type_id = TypeId::of::<T>();
-        let entry = self.components.entry(type_id)
+        let entry = self
+            .components
+            .entry(type_id)
             .or_insert_with(|| Box::new(SparseSet::<T>::new()));
-        
+
         if let Some(sparse_set) = entry.downcast_mut::<SparseSet<T>>() {
             sparse_set.insert(entity.id(), component);
         }
@@ -47,7 +49,8 @@ impl World {
     /// Returns a reference to the [`Component`](crate::Component) of the given type for the given [Entity].
     pub fn get_component<T: 'static>(&self, entity: Entity) -> Option<&T> {
         let type_id = TypeId::of::<T>();
-        self.components.get(&type_id)?
+        self.components
+            .get(&type_id)?
             .downcast_ref::<SparseSet<T>>()?
             .get(entity.id())
     }
@@ -55,7 +58,8 @@ impl World {
     /// Returns a mutable reference to the [`Component`](crate::Component) of the given type for the given [Entity].
     pub fn get_component_mut<T: 'static>(&mut self, entity: Entity) -> Option<&mut T> {
         let type_id = TypeId::of::<T>();
-        self.components.get_mut(&type_id)?
+        self.components
+            .get_mut(&type_id)?
             .downcast_mut::<SparseSet<T>>()?
             .get_mut(entity.id())
     }
@@ -63,7 +67,8 @@ impl World {
     /// Removes the [`Component`](crate::Component) of the given type from the given [Entity] and returns it.
     pub fn remove_component<T: 'static>(&mut self, entity: Entity) -> Option<T> {
         let type_id = TypeId::of::<T>();
-        self.components.get_mut(&type_id)?
+        self.components
+            .get_mut(&type_id)?
             .downcast_mut::<SparseSet<T>>()?
             .remove(entity.id())
     }

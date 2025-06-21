@@ -1,5 +1,5 @@
-use wuestite_ecs::{Component, Entity, Event, System, World, SparseSet};
 use std::any::TypeId;
+use wuestite_ecs::{Component, Entity, Event, SparseSet, System, World};
 
 #[derive(Component)]
 struct Bomb {
@@ -37,7 +37,10 @@ impl BombSystem {
 
                 for entity in entities_with_bombs {
                     if let Some(bomb) = world.get_component::<Bomb>(entity) {
-                        println!("Bomb '{}' exploded with power {}!", bomb.name, bomb.explosion_power);
+                        println!(
+                            "Bomb '{}' exploded with power {}!",
+                            bomb.name, bomb.explosion_power
+                        );
                         world.send_event(ExplosionEvent {
                             source: entity,
                             power: bomb.explosion_power,
@@ -88,16 +91,22 @@ fn main() {
     let mut world = World::new();
 
     let force_field = world.spawn();
-    world.add_component(force_field, ForceField {
-        name: "Shield Alpha".to_string(),
-        strength: 75,
-    });
+    world.add_component(
+        force_field,
+        ForceField {
+            name: "Shield Alpha".to_string(),
+            strength: 75,
+        },
+    );
 
     let bomb = world.spawn();
-    world.add_component(bomb, Bomb {
-        name: "Big Boom".to_string(),
-        explosion_power: 50,
-    });
+    world.add_component(
+        bomb,
+        Bomb {
+            name: "Big Boom".to_string(),
+            explosion_power: 50,
+        },
+    );
 
     let bomb_system = BombSystem;
     let force_field_system = ForceFieldSystem;
