@@ -82,4 +82,9 @@ impl<T> SparseSet<T> {
     pub fn len(&self) -> usize {
         self.dense.len()
     }
+
+    pub fn is_empty(&self) -> bool {
+        self.dense.is_empty()
+    }
+    
 }
