@@ -1,12 +1,11 @@
 use std::any::{Any, TypeId};
 use std::collections::{HashMap, VecDeque};
 
-use crate::{event::Event, Entity};
+use crate::{event::Event, Entity, sparse_set::SparseSet};
 
 /// Represents the game world, containing [Entity], [`Component`](crate::Component), and [Event].
 pub struct World {
-    pub entities: Vec<Entity>,
-    pub components: HashMap<TypeId, Vec<Option<Box<dyn Any>>>>,
+    pub components: HashMap<TypeId, Box<dyn Any>>,
     next_entity_id: u64,
     pub events: HashMap<TypeId, VecDeque<Box<dyn Any>>>,
 }
@@ -21,7 +20,6 @@ impl World {
     /// Creates a new empty [World].
     pub fn new() -> Self {
         Self {
-            entities: Vec::new(),
             components: HashMap::new(),
             next_entity_id: 0,
             events: HashMap::new(),
@@ -32,57 +30,49 @@ impl World {
     pub fn spawn(&mut self) -> Entity {
         let entity = Entity::new(self.next_entity_id);
         self.next_entity_id += 1;
-        self.entities.push(entity);
         entity
     }
 
     /// Adds a [`Component`](crate::Component) to the given [Entity].
-    pub fn add_component<T: 'static + Any>(&mut self, entity: Entity, component: T) {
+    pub fn add_component<T: 'static>(&mut self, entity: Entity, component: T) {
         let type_id = TypeId::of::<T>();
-        let components = self.components.entry(type_id).or_default();
-
-        while entity.id() >= components.len() as u64 {
-            components.push(None);
+        let entry = self.components.entry(type_id)
+            .or_insert_with(|| Box::new(SparseSet::<T>::new()));
+        
+        if let Some(sparse_set) = entry.downcast_mut::<SparseSet<T>>() {
+            sparse_set.insert(entity.id(), component);
         }
-
-        components[entity.id() as usize] = Some(Box::new(component));
     }
 
     /// Returns a reference to the [`Component`](crate::Component) of the given type for the given [Entity].
-    pub fn get_component<T: 'static + Any>(&self, entity: Entity) -> Option<&T> {
+    pub fn get_component<T: 'static>(&self, entity: Entity) -> Option<&T> {
         let type_id = TypeId::of::<T>();
-        self.components
-            .get(&type_id)?
-            .get(entity.id() as usize)?
-            .as_ref()
-            .and_then(|boxed| boxed.downcast_ref::<T>())
+        self.components.get(&type_id)?
+            .downcast_ref::<SparseSet<T>>()?
+            .get(entity.id())
     }
 
     /// Returns a mutable reference to the [`Component`](crate::Component) of the given type for the given [Entity].
-    pub fn get_component_mut<T: 'static + Any>(&mut self, entity: Entity) -> Option<&mut T> {
+    pub fn get_component_mut<T: 'static>(&mut self, entity: Entity) -> Option<&mut T> {
         let type_id = TypeId::of::<T>();
-        self.components
-            .get_mut(&type_id)?
-            .get_mut(entity.id() as usize)?
-            .as_mut()
-            .and_then(|boxed| boxed.downcast_mut::<T>())
+        self.components.get_mut(&type_id)?
+            .downcast_mut::<SparseSet<T>>()?
+            .get_mut(entity.id())
     }
 
     /// Removes the [`Component`](crate::Component) of the given type from the given [Entity] and returns it.
-    pub fn remove_component<T: 'static + Any>(&mut self, entity: Entity) -> Option<Box<dyn Any>> {
+    pub fn remove_component<T: 'static>(&mut self, entity: Entity) -> Option<T> {
         let type_id = TypeId::of::<T>();
-        self.components
-            .get_mut(&type_id)?
-            .get_mut(entity.id() as usize)?
-            .take()
+        self.components.get_mut(&type_id)?
+            .downcast_mut::<SparseSet<T>>()?
+            .remove(entity.id())
     }
 
     /// Despawns the given [Entity].
     pub fn despawn(&mut self, entity: Entity) {
-        self.entities.retain(|&e| e != entity);
         for components in self.components.values_mut() {
-            if entity.id() < components.len() as u64 {
-                components[entity.id() as usize] = None;
+            if let Some(sparse_set) = components.downcast_mut::<SparseSet<()>>() {
+                sparse_set.remove(entity.id());
             }
         }
     }
@@ -107,5 +97,9 @@ impl World {
         } else {
             Vec::new()
         }
+    }
+
+    pub fn next_entity_id(&self) -> u64 {
+        self.next_entity_id
     }
 }

@@ -3,6 +3,7 @@ pub mod entity;
 pub mod event;
 pub mod system;
 pub mod world;
+pub mod sparse_set;
 
 pub use component::Component;
 pub use entity::Entity;
@@ -13,3 +14,4 @@ pub use world::World;
 pub use wuestite_ecs_macros::Component;
 pub use wuestite_ecs_macros::Event;
 pub use wuestite_ecs_macros::System;
+pub use sparse_set::SparseSet;

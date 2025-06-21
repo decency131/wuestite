@@ -1,4 +1,5 @@
-use wuestite_ecs::{Component, System, World};
+use std::any::TypeId;
+use wuestite_ecs::{Component, System, World, SparseSet};
 
 #[derive(Component)]
 struct Red;
@@ -11,11 +12,12 @@ struct CountRedComponents;
 
 impl CountRedComponents {
     fn run(&self, world: &mut World) {
-        let count = world
-            .entities
-            .iter()
-            .filter(|&&e| world.get_component::<Red>(e).is_some())
-            .count();
+        let count = world.components
+            .get(&TypeId::of::<Red>())
+            .and_then(|any| any.downcast_ref::<SparseSet<Red>>())
+            .map(|sparse_set| sparse_set.len())
+            .unwrap_or(0);
+            
         println!("Red components: {}", count);
     }
 }
