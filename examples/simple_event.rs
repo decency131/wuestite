@@ -26,7 +26,6 @@ impl BombSystem {
     fn run(&self, world: &mut World) {
         if let Some(bombs) = world.components.get(&TypeId::of::<Bomb>()) {
             if let Some(sparse_set) = bombs.downcast_ref::<SparseSet<Bomb>>() {
-                // Временное решение для итерации по сущностям с бомбами
                 let mut entities_with_bombs = Vec::new();
                 for entity_id in 0..world.next_entity_id() {
                     let entity = Entity::new(entity_id);
@@ -60,7 +59,6 @@ impl ForceFieldSystem {
     fn run(&self, world: &mut World) {
         let events = world.get_events::<ExplosionEvent>();
         for event in events {
-            // Временное решение для итерации по сущностям с силовыми полями
             let mut entities_with_fields = Vec::new();
             for entity_id in 0..world.next_entity_id() {
                 let entity = Entity::new(entity_id);

@@ -75,11 +75,7 @@ impl World {
 
     /// Despawns the given [Entity].
     pub fn despawn(&mut self, entity: Entity) {
-        for components in self.components.values_mut() {
-            if let Some(sparse_set) = components.downcast_mut::<SparseSet<()>>() {
-                sparse_set.remove(entity.id());
-            }
-        }
+        // todo
     }
 
     /// Sends an [Event] to the [World].
