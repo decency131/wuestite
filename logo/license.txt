@@ -1,0 +1,7 @@
+logo license
+
+license: CC-BY-4.0
+creator: ArZarLordOfMango
+sourse:
+gear: https://commons.wikimedia.org/wiki/File:Rust_Programming_Language_Logo_Gear_only.svg
+font: https://fontmeme.com/fonts/egiziano-font/#fontinfo
