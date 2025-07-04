@@ -1,5 +1,5 @@
+use wuestite::prelude::*;
 use std::any::TypeId;
-use wuestite_ecs::{Component, Entity, Event, SparseSet, System, World};
 
 #[derive(Component)]
 struct Bomb {
