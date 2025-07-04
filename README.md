@@ -6,6 +6,7 @@
 ![GitHub License](https://img.shields.io/github/license/decency131/wuestite?style=for-the-badge)
 
 ![logo](logo/logo-text.png)
+![logo](logo/logo-text-white.png)
 
 Wuestite its 2D ECS engine write on Rust.
 
