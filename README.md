@@ -7,7 +7,7 @@
 
 ![logo](logo/logo-text.png)
 
-Wuestite its 2D ECS engine write on Rust.
+Wuestite its 2D ECS engine written in Rust.
 
 ## Example
 
