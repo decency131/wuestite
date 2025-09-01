@@ -23,7 +23,7 @@ impl<T> SparseSet<T> {
             sparse: Vec::new(),
         }
     }
-    
+
     /// Inserts a value associated with the given key into the [SparseSet].
     pub fn insert(&mut self, key: u64, value: T) {
         if key >= self.sparse.len() as u64 {

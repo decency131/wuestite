@@ -24,14 +24,14 @@ impl World {
             next_entity_id: 0,
         }
     }
-    
+
     /// Spawns a new entity and returns its ID.
     pub fn spawn(&mut self) -> u64 {
         let eid = self.next_entity_id;
         self.next_entity_id += 1;
         eid
     }
-    
+
     /// Despawns an entity.
     pub fn despawn(&mut self, entity: u64) {
         for storage in self.components.values_mut() {
@@ -62,20 +62,23 @@ impl World {
             sparse_set.remove(entity);
         }
     }
-   
+
     /// Gets a reference to a [Component] of the specified type for the given entity.
     pub fn get_component<T: 'static + Component>(&self, entity: u64) -> Option<&T> {
         let cid = TypeId::of::<T>();
-        self.components.get(&cid).and_then(|storage| {
-            storage.downcast_ref::<SparseSet<T>>().unwrap().get(entity)
-        })
+        self.components
+            .get(&cid)
+            .and_then(|storage| storage.downcast_ref::<SparseSet<T>>().unwrap().get(entity))
     }
 
     /// Gets a mutable reference to a [Component] of the specified type for the given entity.
     pub fn get_component_mut<T: 'static + Component>(&mut self, entity: u64) -> Option<&mut T> {
         let cid = TypeId::of::<T>();
         self.components.get_mut(&cid).and_then(|storage| {
-            storage.downcast_mut::<SparseSet<T>>().unwrap().get_mut(entity)
+            storage
+                .downcast_mut::<SparseSet<T>>()
+                .unwrap()
+                .get_mut(entity)
         })
     }
 }
