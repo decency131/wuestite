@@ -7,8 +7,8 @@ pub mod world;
 
 pub use component::Component;
 pub use entity::Entity;
-pub use event::Event;
-pub use event::EventDispatcher;
+// pub use event::Event;
+// pub use event::EventDispatcher;
 pub use sparse_set::SparseSet;
 pub use system::System;
 pub use world::World;

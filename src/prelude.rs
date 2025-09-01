@@ -1,1 +1,1 @@
-pub use crate::{Component, Entity, Event, EventDispatcher, System, World, SparseSet};
+pub use crate::{Component, Entity, System, World, SparseSet};

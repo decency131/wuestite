@@ -1,7 +1,7 @@
 use std::any::{Any, TypeId};
 use std::collections::{HashMap, VecDeque};
 
-use crate::{event::Event, sparse_set::SparseSet, Entity};
+use crate::{sparse_set::SparseSet, Entity};
 
 /// Represents the game world, containing [Entity], [`Component`](crate::Component), and [Event].
 pub struct World {
@@ -77,7 +77,8 @@ impl World {
     pub fn despawn(&mut self, entity: Entity) {
         // todo
     }
-
+    
+    /* 
     /// Sends an [Event] to the [World].
     pub fn send_event<E: Event + 'static>(&mut self, event: E) {
         let type_id = TypeId::of::<E>();
@@ -99,7 +100,7 @@ impl World {
             Vec::new()
         }
     }
-
+    */
     pub fn next_entity_id(&self) -> u64 {
         self.next_entity_id
     }
