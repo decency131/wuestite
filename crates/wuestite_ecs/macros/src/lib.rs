@@ -16,18 +16,6 @@ pub fn component_derive(input: TokenStream) -> TokenStream {
     .into()
 }
 
-/// Derive macro for automatically implementing the `Event` trait.
-#[proc_macro_derive(Event)]
-pub fn event_derive(input: TokenStream) -> TokenStream {
-    let ast = parse_macro_input!(input as DeriveInput);
-    let name = ast.ident;
-
-    quote! {
-        impl wuestite_ecs::Event for #name {}
-    }
-    .into()
-}
-
 /// Derive macro for automatically implementing the `System` trait.
 #[proc_macro_derive(System)]
 pub fn system_derive(input: TokenStream) -> TokenStream {

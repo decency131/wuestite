@@ -1,39 +1,37 @@
 use wuestite::prelude::*;
-use std::any::TypeId;
 
-#[derive(Component)]
-struct Red;
-
-#[derive(Component)]
-struct Blue;
-
-#[derive(System)]
-struct CountRedComponents;
-
-impl CountRedComponents {
-    fn run(&self, world: &mut World) {
-        let count = world
-            .components
-            .get(&TypeId::of::<Red>())
-            .and_then(|any| any.downcast_ref::<SparseSet<Red>>())
-            .map(|sparse_set| sparse_set.len())
-            .unwrap_or(0);
-
-        println!("Red components: {}", count);
-    }
+#[derive(Debug)]
+struct Balance {
+    money: u32,
 }
+
+#[allow(dead_code)]
+#[derive(Debug)]
+struct Info {
+    name: String,
+}
+
+impl Component for Balance {}
+impl Component for Info {}
 
 fn main() {
     let mut world = World::new();
 
+    let e0 = world.spawn();
+    world.add_component(e0, Info { name: "Alice".to_string() });
+
     let e1 = world.spawn();
-    world.add_component(e1, Red);
+    world.add_component(e1, Balance { money: 100 });
 
     let e2 = world.spawn();
-    world.add_component(e2, Blue);
+    world.add_component(e2, Info { name: "Bob".to_string() });
+    world.add_component(e2, Balance { money: 500 });
 
-    let e3 = world.spawn();
-    world.add_component(e3, Red);
+    let balance1 = world.get_component_mut::<Balance>(e1).unwrap();
+    balance1.money += 50;
 
-    CountRedComponents.run(&mut world);
+    world.remove_component::<Info>(e2);
+
+    world.despawn(e0);
+    world.despawn(e1);
 }
