@@ -46,14 +46,12 @@ name = "wuestite"
 version = "0.1.0"
 dependencies = [
  "wuestite_ecs",
+ "wuestite_ecs_macros",
 ]
 
 [[package]]
 name = "wuestite_ecs"
 version = "0.1.0"
-dependencies = [
- "wuestite_ecs_macros",
-]
 
 [[package]]
 name = "wuestite_ecs_macros"

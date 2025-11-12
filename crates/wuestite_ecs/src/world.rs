@@ -3,11 +3,14 @@ use std::collections::HashMap;
 
 use crate::sparse_set::SparseSet;
 use crate::Component;
+use crate::event::EventHandler;
+use crate::event::Event;
 
 /// The [World] struct manages entities and their associated components in an ECS architecture.
 pub struct World {
     components: HashMap<TypeId, Box<dyn Any>>,
     next_entity_id: u64,
+    events: EventHandler,
 }
 
 impl Default for World {
@@ -22,6 +25,7 @@ impl World {
         Self {
             components: HashMap::new(),
             next_entity_id: 0,
+            events: EventHandler::new(),
         }
     }
 
@@ -80,5 +84,17 @@ impl World {
                 .unwrap()
                 .get_mut(entity)
         })
+    }
+
+    pub fn push<E: Event + 'static>(&mut self, event: E) {
+        self.events.push(event);
+    }
+
+    pub fn get_events<E: Event + 'static>(&self) -> Option<Vec<&E>> {
+        self.events.get_events::<E>()
+    }
+    
+    pub fn get_all(&self) -> Vec<&dyn Event> {
+        self.events.get_all()
     }
 }
