@@ -1,10 +1,10 @@
 use std::any::{Any, TypeId};
 use std::collections::HashMap;
 
+use crate::event::Event;
+use crate::event::EventHandler;
 use crate::sparse_set::SparseSet;
 use crate::Component;
-use crate::event::EventHandler;
-use crate::event::Event;
 
 /// The [World] struct manages entities and their associated components in an ECS architecture.
 pub struct World {
@@ -93,7 +93,7 @@ impl World {
     pub fn get_events<E: Event + 'static>(&self) -> Option<Vec<&E>> {
         self.events.get_events::<E>()
     }
-    
+
     pub fn get_all(&self) -> Vec<&dyn Event> {
         self.events.get_all()
     }

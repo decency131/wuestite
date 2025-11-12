@@ -19,7 +19,6 @@ pub fn component_derive(input: TokenStream) -> TokenStream {
 /// Derive macro for automatically implementing the `System` trait.
 #[proc_macro_derive(System)]
 pub fn system_derive(_input: TokenStream) -> TokenStream {
-
     quote! {}.into()
 }
 
