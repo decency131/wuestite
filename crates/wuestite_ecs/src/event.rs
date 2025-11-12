@@ -8,6 +8,12 @@ pub struct EventHandler {
     events: Vec<Box<dyn Event>>,
 }
 
+impl Default for EventHandler {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl EventHandler {
     pub fn new() -> Self {
         Self { events: Vec::new() }
