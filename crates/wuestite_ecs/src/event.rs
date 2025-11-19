@@ -23,11 +23,16 @@ impl EventHandler {
         self.events.push(Box::new(event));
     }
 
-    pub fn get_events<E: Event + 'static>(&self) -> Option<Vec<&E>> {
-        let events: Vec<&E> = self
+    pub fn remove(&mut self, index: usize) {
+        self.events.remove(index);
+    }
+
+    pub fn get_events<E: Event>(&self) -> Option<Vec<(usize, &E)>> {
+        let events: Vec<(usize, &E)> = self
             .events
             .iter()
-            .filter_map(|e| e.as_any().downcast_ref::<E>())
+            .enumerate()
+            .filter_map(|(idx, ev)| ev.as_any().downcast_ref::<E>().map(|e| (idx, e)))
             .collect();
 
         if events.is_empty() {
@@ -39,5 +44,9 @@ impl EventHandler {
 
     pub fn get_all(&self) -> Vec<&dyn Event> {
         self.events.iter().map(|e| e.as_ref()).collect()
+    }
+
+    pub fn remove_event(&mut self, index: usize) {
+        self.events.remove(index);
     }
 }

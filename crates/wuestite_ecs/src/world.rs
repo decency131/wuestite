@@ -90,7 +90,7 @@ impl World {
         self.events.push(event);
     }
 
-    pub fn get_events<E: Event + 'static>(&self) -> Option<Vec<&E>> {
+    pub fn get_events<E: Event + 'static>(&self) -> Option<Vec<(usize, &E)>> {
         self.events.get_events::<E>()
     }
 
