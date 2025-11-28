@@ -1,18 +1,15 @@
 use wuestite::prelude::*;
 
-#[derive(Debug)]
+#[derive(Debug, Component)]
 struct Balance {
     money: u32,
 }
 
 #[allow(dead_code)]
-#[derive(Debug)]
+#[derive(Debug, Component)]
 struct Info {
     name: String,
 }
-
-impl Component for Balance {}
-impl Component for Info {}
 
 fn main() {
     let mut world = World::new();
