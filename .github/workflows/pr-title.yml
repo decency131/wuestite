@@ -1,0 +1,14 @@
+name: PR title
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  title:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check title
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: bash .github/scripts/check_pr_title.sh "$TITLE"
