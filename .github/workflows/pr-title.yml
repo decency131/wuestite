@@ -11,4 +11,4 @@ jobs:
       - name: Check title
         env:
           TITLE: ${{ github.event.pull_request.title }}
-        run: bash scripts/check_pr_title.sh "$TITLE"
+        run: bash .github/scripts/check_pr_title.sh "$TITLE"
