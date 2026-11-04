@@ -11,21 +11,27 @@ pub fn component_derive(input: TokenStream) -> TokenStream {
     let name = ast.ident;
 
     quote! {
-        impl wuestite_ecs::Component for #name {}
+        impl Component for #name {}
     }
     .into()
 }
 
 /// Derive macro for automatically implementing the `System` trait.
 #[proc_macro_derive(System)]
-pub fn system_derive(input: TokenStream) -> TokenStream {
+pub fn system_derive(_input: TokenStream) -> TokenStream {
+    quote! {}.into()
+}
+
+#[proc_macro_derive(Event)]
+pub fn event_derive(input: TokenStream) -> TokenStream {
     let ast = parse_macro_input!(input as DeriveInput);
     let name = ast.ident;
 
     quote! {
-        impl wuestite_ecs::System for #name {
-            fn run(&self, world: &mut wuestite_ecs::World) {}
-            fn update(&self, world: &mut wuestite_ecs::World) {}
+        impl Event for #name {
+            fn as_any(&self) -> &dyn std::any::Any {
+                self
+            }
         }
     }
     .into()

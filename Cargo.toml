@@ -21,3 +21,4 @@ members = [
 
 [dependencies]
 wuestite_ecs = {path = "crates/wuestite_ecs", version = "0.1.0"}
+wuestite_ecs_macros = {path = "crates/wuestite_ecs_macros", version = "0.1.0"}

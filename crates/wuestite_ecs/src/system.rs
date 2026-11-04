@@ -3,14 +3,16 @@ use crate::World;
 /// [System] contains logic that operates on [`Entity`](crate::Entity) and their [`Component`](crate::Component).
 pub trait System {
     /// Executes the system's logic.
-    fn run(&self, world: &mut World);
+    fn run(&self, _world: &mut World) {}
     /// Updates the system's state.
-    fn update(&self, world: &mut World);
+    fn update(&self, _world: &mut World) {}
+    /// Executes shutdown logic for the system.
+    fn shutdown(&self, _world: &mut World) {}
 }
 
 /// Manages a collection of [System].
 pub struct SystemRegistry {
-    systems: Vec<Box<dyn System>>,
+    pub systems: Vec<Box<dyn System>>,
 }
 
 impl Default for SystemRegistry {
@@ -36,6 +38,20 @@ impl SystemRegistry {
     pub fn run(&self, world: &mut World) {
         for system in &self.systems {
             system.run(world);
+        }
+    }
+
+    /// Updates all [System] in the registry.
+    pub fn update(&self, world: &mut World) {
+        for system in &self.systems {
+            system.update(world);
+        }
+    }
+
+    /// Shuts down all [System] in the registry.
+    pub fn shutdown(&self, world: &mut World) {
+        for system in &self.systems {
+            system.shutdown(world);
         }
     }
 }
