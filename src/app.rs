@@ -2,7 +2,7 @@ pub use crate::{Event, EventHandler, System, SystemRegistry, World};
 
 pub struct App {
     running: bool,
-    wolrd: World,
+    world: World,
     system: SystemRegistry,
 }
 
@@ -16,23 +16,23 @@ impl App {
     pub fn new() -> Self {
         Self {
             running: true,
-            wolrd: World::new(),
+            world: World::new(),
             system: SystemRegistry::new(),
         }
     }
 
     pub fn run(&mut self) {
-        self.system.run(&mut self.wolrd);
+        self.system.run(&mut self.world);
         while self.running {
-            self.system.update(&mut self.wolrd);
-            if self.wolrd.get_events::<AppExit>().is_some() {
+            self.system.update(&mut self.world);
+            if self.world.get_events::<AppExit>().is_some() {
                 self.quit();
             }
         }
     }
 
     pub fn quit(&mut self) {
-        self.system.shutdown(&mut self.wolrd);
+        self.system.shutdown(&mut self.world);
         self.running = false;
     }
 
