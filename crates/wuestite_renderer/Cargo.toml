@@ -1,0 +1,15 @@
+[package]
+name = "wuestite_renderer"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+readme.workspace = true
+repository.workspace = true
+license-file.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+
+[dependencies]
+bytemuck = { version = "1.25.2", features = ["derive"] }
+wgpu = "30.0.1"
+winit = "0.30.13"

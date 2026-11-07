@@ -31,5 +31,8 @@ homepage = "https://github.com/decency131/wuestite/blob/main/README.md"
 keywords = ["gamedev", "engine"]
 
 [dependencies]
+pollster = "1.0.1"
+winit = "0.30.13"
 wuestite_ecs = {path = "crates/wuestite_ecs", version = "0.1.0"}
 wuestite_ecs_macros = {path = "crates/wuestite_ecs_macros", version = "0.1.0"}
+wuestite_renderer = { version = "0.1.0", path = "crates/wuestite_renderer" }
